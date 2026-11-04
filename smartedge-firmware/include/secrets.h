@@ -1,8 +1,8 @@
 #ifndef SECRETS_H
 #define SECRETS_H
 
-#define WIFI_SSID "v27"
+#define WIFI_SSID ""
 
-#define WIFI_PASSWORD "apg20apg"
+#define WIFI_PASSWORD ""
 
 #endif
