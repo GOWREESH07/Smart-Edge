@@ -1,0 +1,94 @@
+#include <Arduino.h>
+
+#include "wifi_manager.h"
+#include "api_client.h"
+#include "pzem_reader.h"
+
+WiFiManager wifi;
+ApiClient api;
+PzemReader sensor;
+
+void setup()
+{
+    Serial.begin(115200);
+    delay(1000);
+
+    Serial.println();
+    Serial.println("========== SMARTEDGE ==========");
+
+    wifi.connect();
+
+    sensor.begin();
+
+    Serial.println("PZEM Initialized");
+}
+
+void loop()
+{
+    if (!wifi.isConnected())
+    {
+        Serial.println("WiFi Disconnected! Reconnecting...");
+        wifi.connect();
+    }
+
+    float voltage = sensor.voltage();
+    float current = sensor.current();
+    float power = sensor.power();
+    float energy = sensor.energy();
+    float frequency = sensor.frequency();
+    float powerFactor = sensor.powerFactor();
+
+    if (isnan(voltage) || isnan(current) || isnan(power))
+    {
+        Serial.println("--------------------------------");
+        Serial.println("PZEM Communication Error");
+        Serial.println("Check wiring and AC supply");
+        Serial.println("--------------------------------");
+    }
+    else
+    {
+        Serial.println("--------------------------------");
+
+        Serial.print("Voltage      : ");
+        Serial.print(voltage);
+        Serial.println(" V");
+
+        Serial.print("Current      : ");
+        Serial.print(current);
+        Serial.println(" A");
+
+        Serial.print("Power        : ");
+        Serial.print(power);
+        Serial.println(" W");
+
+        Serial.print("Energy       : ");
+        Serial.print(energy);
+        Serial.println(" kWh");
+
+        Serial.print("Frequency    : ");
+        Serial.print(frequency);
+        Serial.println(" Hz");
+
+        Serial.print("Power Factor : ");
+        Serial.println(powerFactor);
+
+        Serial.print("WiFi RSSI    : ");
+        Serial.print(wifi.getRSSI());
+        Serial.println(" dBm");
+
+        api.sendData(
+            voltage,
+            current,
+            power,
+            energy,
+            frequency,
+            powerFactor,
+            0.0,
+            wifi.getRSSI());
+
+        Serial.println("Data sent to Spring Boot");
+        Serial.println("--------------------------------");
+    }
+
+    delay(5000);
+}

@@ -1,0 +1,22 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE & Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Backend (Spring Boot / Maven)
+smartedge-backend/target/
+smartedge-backend/.mvn/wrapper/maven-wrapper.jar
+
+# Frontend (Node / React / Vite)
+smartedge-dashboard/node_modules/
+smartedge-dashboard/dist/
+smartedge-dashboard/dist-ssr/
+smartedge-dashboard/*.local
+
+# Firmware (PlatformIO)
+smartedge-firmware/.pio/

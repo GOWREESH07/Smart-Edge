@@ -1,0 +1,49 @@
+#include <PZEM004Tv30.h>
+
+#include "pzem_reader.h"
+
+HardwareSerial PzemSerial(2);
+
+PZEM004Tv30 pzem(PzemSerial,16,17);
+
+void PzemReader::begin(){
+
+    PzemSerial.begin(9600);
+
+}
+
+float PzemReader::voltage(){
+
+    return pzem.voltage();
+
+}
+
+float PzemReader::current(){
+
+    return pzem.current();
+
+}
+
+float PzemReader::power(){
+
+    return pzem.power();
+
+}
+
+float PzemReader::energy(){
+
+    return pzem.energy();
+
+}
+
+float PzemReader::frequency(){
+
+    return pzem.frequency();
+
+}
+
+float PzemReader::powerFactor(){
+
+    return pzem.pf();
+
+}
